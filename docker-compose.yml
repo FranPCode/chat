@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
     image: chat-web:1
     command: >
-      sh -c "python manage.py runserver"
+      sh -c "python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/app
     ports:
@@ -22,7 +22,7 @@ services:
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
 
   db:
-    image: postgres:12.19-alpine3.20
+    image: postgres:13-alpine3.20
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
@@ -33,7 +33,7 @@ services:
   redis:
     image: redis:7
     ports:
-      - 6739:6739
+      - 6379:6379
     depends_on:
       - db
 
