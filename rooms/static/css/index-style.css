@@ -1,0 +1,162 @@
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+.top-bar {
+    width: 100%;
+    background-color: #007bff;
+    text-align: center;
+    padding: 10px;
+    color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+/* Estilo para que los formularios se alineen uno al lado del otro */
+.auth-buttons {
+    display: flex;
+    justify-content: center;
+    /* Centra los botones en la barra superior */
+    gap: 10px;
+    /* Espacio entre los botones */
+}
+
+.inline-form {
+    display: inline;
+    margin: 0;
+    /* Remueve el margen adicional */
+}
+
+/* Botones dentro de la barra superior */
+.top-bar button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 0 10px;
+}
+
+.top-bar button:hover {
+    text-decoration: underline;
+}
+
+.top-bar a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.top-bar a:hover {
+    text-decoration: underline;
+}
+
+.top-bar form {
+    display: inline;
+}
+
+.container {
+    display: flex;
+    gap: 20px;
+    margin-top: 60px;
+}
+
+.chat-block,
+.personal-chat-block {
+    border: 1px solid #ccc;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    width: 400px;
+}
+
+h2 {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+}
+
+.form-group label {
+    width: 30%;
+    margin-right: 45px;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group input[type="email"] {
+    width: calc(70% - 30px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+p {
+    text-align: center;
+    margin-top: 20px;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.disabled {
+    text-align: center;
+    color: red;
+}
+
+.error-message {
+    color: #f44336;
+    background-color: #fddede;
+    border: 1px solid #f44336;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 15px 0;
+    text-align: center;
+}
+
+/* Asegúrate de que la barra superior tenga un estilo de contenedor adecuado */

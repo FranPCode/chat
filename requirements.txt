@@ -132,7 +132,7 @@ pysocks==1.7.1
     # via
     #   -r requirements.in
     #   urllib3
-python-dotenv==1.0.1
+# python-dotenv==1.0.1
     # via -r requirements.in
 redis==5.0.8
     # via

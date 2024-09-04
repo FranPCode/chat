@@ -1,0 +1,111 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room: {{ room_name }}</title>
+    <link rel="stylesheet" href="{% static 'css/base-room-style.css' %}">
+</head>
+
+<body>
+    <div class="chat-header">
+        <button type="button" id="back-button">Back</button>
+        <span id="room-name">{{ room_name }}</span>
+        <span id="user-count">Users: 0</span>
+    </div>
+    <div class="chat-container">
+        <div id="chat-log"></div>
+        <div class="input-container">
+            <input id="chat-message-input" type="text" placeholder="Type your message here...">
+            <input id="chat-message-submit" type="button" value="Send">
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const username = localStorage.getItem('username');
+            if (!username) {
+                alert('Username not found. Please go back and enter your username.');
+                window.location.href = '/';
+            }
+
+            const roomName = document.getElementById('room-name').textContent;
+
+            const chatSocket = new WebSocket(
+                'ws://' + window.location.host + '/ws/chat/' + roomName + '/'
+            );
+
+            let lastUsername = null;
+
+            chatSocket.onmessage = function (e) {
+                const data = JSON.parse(e.data);
+
+                if (data.user_count !== undefined) {
+                    document.getElementById('user-count').textContent = `Users: ${data.user_count}`;
+                } else {
+                    const messageContainer = document.createElement('div');
+                    messageContainer.classList.add('message-container');
+
+                    const messageElement = document.createElement('div');
+                    messageElement.classList.add('message');
+                    messageElement.textContent = data.message;
+
+                    if (data.username === username) {
+                        messageElement.classList.add('my-message');
+                        messageContainer.classList.add('my-message');
+                    } else {
+                        if (data.username !== lastUsername) {
+                            const usernameElement = document.createElement('div');
+                            usernameElement.classList.add('message-username');
+                            usernameElement.textContent = data.username;
+
+                            messageContainer.appendChild(usernameElement);
+                        }
+                        messageElement.classList.add('other-message');
+                        messageContainer.classList.add('other-message');
+                        lastUsername = data.username;
+                    }
+
+                    messageContainer.appendChild(messageElement);
+
+                    document.querySelector('#chat-log').prepend(messageContainer);
+                    document.querySelector('#chat-log').scrollTop = 0;
+                }
+            };
+
+            chatSocket.onclose = function (e) {
+                console.error('Chat socket closed unexpectedly');
+            };
+
+            document.querySelector('#chat-message-input').focus();
+            document.querySelector('#chat-message-input').onkeyup = function (e) {
+                if (e.key === 'Enter') {
+                    document.querySelector('#chat-message-submit').click();
+                }
+            };
+
+            document.querySelector('#chat-message-submit').onclick = function (e) {
+                const messageInputDom = document.querySelector('#chat-message-input');
+                const message = messageInputDom.value.trim();
+                if (message !== '') {
+                    chatSocket.send(JSON.stringify({
+                        'message': message,
+                        'username': username
+                    }));
+                    messageInputDom.value = '';
+                    lastUsername = username;
+                }
+                messageInputDom.focus();
+            };
+
+            // Maneja el botón de "Back"
+            document.querySelector('#back-button').onclick = function () {
+                history.back();
+            };
+        });
+    </script>
+</body>
+
+</html>

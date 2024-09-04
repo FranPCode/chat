@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Chat Rooms</title>
+    <link rel="stylesheet" href="{% static 'css/index-style.css' %}">
+</head>
+
+<body>
+    <div class="top-bar">
+        {% if user.is_authenticated %}
+        <h1>{{ user.username }}</h1>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Log out</button>
+        </form>
+        {% else %}
+        <!-- Formulario en línea para Login y Register -->
+        <div class="auth-buttons">
+            <form action="{% url 'login' %}" method="get" class="inline-form">
+                <button type="submit">Login</button>
+            </form>
+            <form action="{% url 'register' %}" method="get" class="inline-form">
+                <button type="submit">Register</button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="container">
+        <div class="chat-block">
+            <h2>Public Chat Rooms</h2>
+            <div class="form-group">
+                <label for="room-name-input">Room Name:</label>
+                <input id="room-name-input" type="text" placeholder="Enter room name">
+            </div>
+
+            {% if not user.is_authenticated %}
+            <br>
+            <div class="form-group">
+                <label for="username-input">Username:</label>
+                <input id="username-input" type="text" placeholder="Enter your name">
+            </div>
+            {% endif %}
+            <button id="room-name-submit">Enter</button>
+        </div>
+
+        <div class="personal-chat-block" id="personal-chat-block">
+            <h2>Personal Chat</h2>
+            {% if user.is_authenticated %}
+
+            {% if error %}
+            <p class='error-message'>{{ error }}</p>
+            {% endif %}
+
+            <form id="personal-chat-form" action='{% url "index" %}' method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="personal-chat-friend">Friend username:</label>
+                    <input id="personal-chat-friend" type="text" name="friend" placeholder="Enter friend name">
+                </div>
+                <button id="personal-chat-submit">Start Chat</button>
+            </form>
+            {% else %}
+            You must be logged in to have a Personal chat with another user.
+            {% endif %}
+        </div>
+    </div>
+    <script> 
+        var isAuthenticated = {{ user.is_authenticated|yesno:"true,false" }};
+        if (isAuthenticated) {
+        document.querySelector('#personal-chat-friend').onkeyup = function (e) {
+            if (e.key === 'Enter') {
+                document.querySelector('#personal-chat-submit').click();
+            }
+        }
+    }        
+        document.querySelector('#room-name-submit').onclick = function (e) {
+            var roomName = document.querySelector('#room-name-input').value;
+            {% if user.is_authenticated %}
+            var username = "{{ user.username }}";
+            {% else %}
+            var username = document.querySelector('#username-input').value;
+            {% endif %}
+        
+            if (roomName && username) {
+                localStorage.setItem('username', username);
+                window.location.pathname = '/chat/' + roomName + '/';
+            } else {
+                alert('Please enter both room name and username.');
+            }
+        };
+    </script>
+</body>
+
+</html>
