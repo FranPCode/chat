@@ -20,22 +20,17 @@ body {
     right: 0;
 }
 
-/* Estilo para que los formularios se alineen uno al lado del otro */
 .auth-buttons {
     display: flex;
     justify-content: center;
-    /* Centra los botones en la barra superior */
     gap: 10px;
-    /* Espacio entre los botones */
 }
 
 .inline-form {
     display: inline;
     margin: 0;
-    /* Remueve el margen adicional */
 }
 
-/* Botones dentro de la barra superior */
 .top-bar button {
     background: none;
     border: none;
@@ -158,5 +153,3 @@ a:hover {
     margin: 15px 0;
     text-align: center;
 }
-
-/* Asegúrate de que la barra superior tenga un estilo de contenedor adecuado */

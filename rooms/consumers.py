@@ -29,8 +29,6 @@ class PublicRoomConsumer(AsyncWebsocketConsumer):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = f'chat_{self.room_name}'
 
-        print(self.channel_layer)
-
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
@@ -77,9 +75,15 @@ class PublicRoomConsumer(AsyncWebsocketConsumer):
         Handles incoming messages sent by the WebSocket client.
         Parses the incoming JSON message and broadcasts it to the group.
         """
-        data = json.loads(text_data)
-        message = data['message']
-        username = data['username']
+        try:
+            data = json.loads(text_data)
+            message = data['message']
+            username = data['username']
+        except (json.JSONDecodeError, KeyError):
+            await self.send(text_data=json.dumps({
+                'error': 'Invalid message format or missing data'
+            }))
+            return
 
         await self.channel_layer.group_send(
             self.room_group_name,
