@@ -6,19 +6,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>{{friend}} Chat</title>
     <link rel="stylesheet" href="{% static 'css/base-room-style.css' %}">
 </head>
 
 <body>
     <div class="chat-header">
         <button type="button" id="back-button">Back</button>
-        <h3>{{ friend }}</h3>
+        <h3 id="friend-name">{{ friend }}</h3>
     </div>
 
     <div id="chat-log">
         {% for message in messages %}
-        <div class="message-container {% if message.sender == user %}my-message{% else %}other-message{% endif %}">
+        <div class="message-container {% if message.sender == user %}my-message{% else %}other-message{% endif %}" id="chat-message">
             <p>{{ message.content }} {{ message.timestamp.time }}</p>
         </div>
         {% endfor %}

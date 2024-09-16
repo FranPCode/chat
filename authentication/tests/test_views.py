@@ -1,3 +1,7 @@
+"""
+Tests for authentication views.
+"""
+
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse

@@ -17,13 +17,13 @@
             <button type="submit">Log out</button>
         </form>
         {% else %}
-        <!-- Formulario en línea para Login y Register -->
+        
         <div class="auth-buttons">
             <form action="{% url 'login' %}" method="get" class="inline-form">
-                <button type="submit">Login</button>
+                <button id="login-button" type="submit">Login</button>
             </form>
             <form action="{% url 'register' %}" method="get" class="inline-form">
-                <button type="submit">Register</button>
+                <button id="register-button" type="submit">Register</button>
             </form>
         </div>
         {% endif %}
